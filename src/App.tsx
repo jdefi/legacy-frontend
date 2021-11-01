@@ -19,6 +19,7 @@ import theme from './theme'
 import Home from './views/Home'
 import Farms from './views/Farms'
 import Stake from './views/Stake'
+import AirDrop from "./views/AirDrop";
 
 const App: React.FC = () => {
   const [mobileMenu, setMobileMenu] = useState(false)
@@ -45,6 +46,9 @@ const App: React.FC = () => {
           </Route>
           <Route path="/staking">
             <Stake />
+          </Route>
+          <Route path="/claim">
+            <AirDrop />
           </Route>
         </Switch>
       </Router>

@@ -3,25 +3,28 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Nav: React.FC = () => {
-  return (
-    <StyledNav>
-      <StyledLink exact activeClassName="active" to="/">
-        Home
-      </StyledLink>
-      <StyledLink exact activeClassName="active" to="/farms">
-        Menu
-      </StyledLink>
-      <StyledLink exact activeClassName="active" to="/staking">
-        Staking
-      </StyledLink>
-      <StyledAbsoluteLink
-        href="https://medium.com/sushiswap/the-sushiswap-project-c4049ea9941e"
-        target="_blank"
-      >
-        About
-      </StyledAbsoluteLink>
-    </StyledNav>
-  )
+    return (
+        <StyledNav>
+            <StyledLink exact activeClassName="active" to="/">
+                Home
+            </StyledLink>
+            <StyledLink exact activeClassName="active" to="/farms">
+                Menu
+            </StyledLink>
+            <StyledLink exact activeClassName="active" to="/staking">
+                Staking
+            </StyledLink>
+            <StyledLink exact activeClassName="active" to="/claim">
+                SushiDrop
+            </StyledLink>
+            <StyledAbsoluteLink
+                href="https://medium.com/sushiswap/the-sushiswap-project-c4049ea9941e"
+                target="_blank"
+            >
+                About
+            </StyledAbsoluteLink>
+        </StyledNav>
+    )
 }
 
 const StyledNav = styled.nav`
