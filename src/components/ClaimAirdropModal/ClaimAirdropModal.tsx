@@ -18,7 +18,7 @@ const ClaimAirdropModal: React.FC<ModalProps> = ({ onDismiss }) => {
                 <Spacer />
                 <Button
                     href={`https://etherscan.io/`}
-                    text="Claim Airdrop"
+                    text="Back to Claim"
                     variant="secondary"
                 />
             </ModalContent>

@@ -26,7 +26,7 @@ const StyledLogo = styled(Link)`
 `
 
 const StyledText = styled.span`
-  color: ${(props) => props.theme.color.grey[600]};
+  color: ${(props) => props.theme.color.brown[600]};
   font-family: 'Reem Kufi', sans-serif;
   font-size: 20px;
   font-weight: 700;

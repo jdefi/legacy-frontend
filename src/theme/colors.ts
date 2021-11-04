@@ -11,7 +11,7 @@ export const red = {
   500: '#d16c00',
 }
 
-export const grey = {
+export const brown = {
   100: '#f7f4f2',
   200: '#f0e9e7',
   300: '#e2d6cf',

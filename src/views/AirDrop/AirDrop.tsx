@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import styled from 'styled-components'
 import chef from '../../assets/img/chef.png'
 
-import { provider } from 'web3-core'
 import { useWallet } from 'use-wallet'
-import { useParams } from 'react-router-dom'
 
 import Card from '../../components/Card'
 import Page from '../../components/Page'
@@ -14,19 +12,15 @@ import Spacer from '../../components/Spacer'
 import SushiIcon from '../../components/SushiIcon'
 import PageHeader from '../../components/PageHeader'
 import CardContent from '../../components/CardContent'
+import Input, { InputProps } from '../../components/Input';
 import ClaimAirdropModal from '../../components/ClaimAirdropModal';
 import WalletProviderModal from '../../components/WalletProviderModal'
 
-import useFarm from '../../hooks/useFarm'
 import useModal from '../../hooks/useModal'
-
-import useSushi from '../../hooks/useSushi'
-import useRedeem from '../../hooks/useRedeem'
-import { getContract } from '../../utils/erc20'
-import { getMasterChefContract } from '../../sushi/utils'
 
 const AirDrop: React.FC = () => {
     const { account } = useWallet()
+    const [value, setValue] = useState('')
     const [openClaimAirDropModal] = useModal(<ClaimAirdropModal />)
     const [onPresentWalletProviderModal] = useModal(<WalletProviderModal />)
 
@@ -34,22 +28,12 @@ const AirDrop: React.FC = () => {
         window.scrollTo(0, 0)
     }, [])
 
-    const sushi = useSushi()
-    const { ethereum } = useWallet()
-
-    // const lpContract = useMemo(() => {
-    //   return getContract(ethereum as provider, lpTokenAddress)
-    // }, [ethereum, lpTokenAddress])
-
-    // const { onRedeem } = useRedeem(getMasterChefContract(sushi))
-
-    // const lpTokenName = useMemo(() => {
-    //   return lpToken.toUpperCase()
-    // }, [lpToken])
-
-    // const earnTokenName = useMemo(() => {
-    //   return earnToken.toUpperCase()
-    // }, [earnToken])
+    const fetchAddress = useCallback(
+        (e: React.FormEvent<HTMLInputElement>) => {
+            setValue(e.currentTarget.value)
+        },
+        [setValue],
+    )
 
     return (
         <Page>
@@ -70,6 +54,10 @@ const AirDrop: React.FC = () => {
                                         <Spacer />
                                         <div style={{ flex: 1 }}>
                                             <Label text="Claim your airdrop" />
+                                            <Input
+                                                placeholder="Enter valid Address"
+                                                value={value}
+                                                onChange={fetchAddress} />
                                             <Button
                                                 onClick={openClaimAirDropModal}
                                                 size="sm"
@@ -127,8 +115,8 @@ const StyledClaim = styled.div`
 const Footer = styled.div`
   font-size: 14px;
   padding: 8px 20px;
-  color: ${(props) => props.theme.color.grey[400]};
-  border-top: solid 1px ${(props) => props.theme.color.grey[300]};
+  color: ${(props) => props.theme.color.brown[400]};
+  border-top: solid 1px ${(props) => props.theme.color.brown[300]};
 `
 
 const FooterValue = styled.div`

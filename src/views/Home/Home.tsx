@@ -40,7 +40,7 @@ const Home: React.FC = () => {
 }
 
 const StyledInfo = styled.h3`
-  color: ${(props) => props.theme.color.grey[500]};
+  color: ${(props) => props.theme.color.brown[500]};
   font-size: 16px;
   font-weight: 400;
   margin: 0;
@@ -48,7 +48,7 @@ const StyledInfo = styled.h3`
   text-align: center;
 
   > b {
-    color: ${(props) => props.theme.color.grey[600]};
+    color: ${(props) => props.theme.color.brown[600]};
   }
 `
 
