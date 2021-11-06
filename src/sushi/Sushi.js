@@ -1,8 +1,9 @@
 import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
-import { Contracts } from './lib/contracts.js'
-import { Account } from './lib/accounts.js'
+
 import { EVM } from './lib/evm.js'
+import { Account } from './lib/accounts.js'
+import { Contracts } from './lib/contracts.js'
 
 import { contractAddresses } from './lib/constants'
 

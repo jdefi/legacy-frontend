@@ -3,28 +3,25 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Nav: React.FC = () => {
-    return (
-        <StyledNav>
-            <StyledLink exact activeClassName="active" to="/">
-                Home
-            </StyledLink>
-            <StyledLink exact activeClassName="active" to="/farms">
-                Menu
-            </StyledLink>
-            <StyledLink exact activeClassName="active" to="/staking">
-                Staking
-            </StyledLink>
-            <StyledLink exact activeClassName="active" to="/claim">
-                SushiDrop
-            </StyledLink>
-            <StyledAbsoluteLink
-                href="https://medium.com/sushiswap/the-sushiswap-project-c4049ea9941e"
-                target="_blank"
-            >
-                About
-            </StyledAbsoluteLink>
-        </StyledNav>
-    )
+  return (
+    <StyledNav>
+      <StyledLink exact activeClassName="active" to="/">
+        Home
+      </StyledLink>
+      <StyledLink exact activeClassName="active" to="/farms">
+        Menu
+      </StyledLink>
+      <StyledLink exact activeClassName="active" to="/staking">
+        Staking
+      </StyledLink>
+      <StyledAbsoluteLink
+        href="https://medium.com/sushiswap/the-sushiswap-project-c4049ea9941e"
+        target="_blank"
+      >
+        About
+      </StyledAbsoluteLink>
+    </StyledNav>
+  )
 }
 
 const StyledNav = styled.nav`
@@ -33,13 +30,13 @@ const StyledNav = styled.nav`
 `
 
 const StyledLink = styled(NavLink)`
-  color: ${(props) => props.theme.color.brown[400]};
+  color: ${(props) => props.theme.color.darkOrange[400]};
   font-weight: 700;
   padding-left: ${(props) => props.theme.spacing[3]}px;
   padding-right: ${(props) => props.theme.spacing[3]}px;
   text-decoration: none;
   &:hover {
-    color: ${(props) => props.theme.color.brown[500]};
+    color: ${(props) => props.theme.color.darkOrange[500]};
   }
   &.active {
     color: ${(props) => props.theme.color.primary.main};
@@ -51,13 +48,13 @@ const StyledLink = styled(NavLink)`
 `
 
 const StyledAbsoluteLink = styled.a`
-  color: ${(props) => props.theme.color.brown[400]};
+  color: ${(props) => props.theme.color.darkOrange[400]};
   font-weight: 700;
   padding-left: ${(props) => props.theme.spacing[3]}px;
   padding-right: ${(props) => props.theme.spacing[3]}px;
   text-decoration: none;
   &:hover {
-    color: ${(props) => props.theme.color.brown[500]};
+    color: ${(props) => props.theme.color.darkOrange[500]};
   }
   &.active {
     color: ${(props) => props.theme.color.primary.main};

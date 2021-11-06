@@ -32,15 +32,18 @@ const Nav: React.FC = () => {
 const StyledNav = styled.nav`
   align-items: center;
   display: flex;
+  @media (max-width: 400px) {
+    display: none;
+  }
 `
 
 const StyledLink = styled.a`
-  color: ${(props) => props.theme.color.brown[400]};
+  color: ${(props) => props.theme.color.darkOrange[400]};
   padding-left: ${(props) => props.theme.spacing[3]}px;
   padding-right: ${(props) => props.theme.spacing[3]}px;
   text-decoration: none;
   &:hover {
-    color: ${(props) => props.theme.color.brown[500]};
+    color: ${(props) => props.theme.color.darkOrange[500]};
   }
 `
 

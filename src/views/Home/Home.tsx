@@ -1,31 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import chef from '../../assets/img/chef.png'
+
 import Page from '../../components/Page'
-import Spacer from '../../components/Spacer'
-import Balances from './components/Balances'
 import Button from '../../components/Button'
+import Balances from './components/Balances'
+import Spacer from '../../components/Spacer'
 import Container from '../../components/Container'
 import PageHeader from '../../components/PageHeader'
-
-import chef from '../../assets/img/chef.png'
 
 const Home: React.FC = () => {
     return (
         <Page>
             <PageHeader
-                icon={<img src={chef} height={120} alt={''} />}
+                icon={<img alt="MasterChef logo" src={chef} height={120} />}
                 title="MasterChef is Ready"
                 subtitle="Stake Uniswap LP tokens to claim your very own yummy SUSHI!"
             />
-
             <Container>
                 <Balances />
             </Container>
             <Spacer size="lg" />
             <StyledInfo>
-                <span role="img" aria-label="trophy">🏆</span>
-                <b>Pro Tip</b>: SUSHI-ETH UNI-V2 LP token pool yields TWICE more token rewards per block.
+                <span role="img" aria-label="trophy">🏆</span><b>Pro Tip</b>:
+                SUSHI-ETH UNI-V2 LP token pool yields TWICE more token rewards per block.
             </StyledInfo>
             <Spacer size="lg" />
             <div
@@ -40,7 +39,7 @@ const Home: React.FC = () => {
 }
 
 const StyledInfo = styled.h3`
-  color: ${(props) => props.theme.color.brown[500]};
+  color: ${(props) => props.theme.color.darkOrange[500]};
   font-size: 16px;
   font-weight: 400;
   margin: 0;
@@ -48,7 +47,7 @@ const StyledInfo = styled.h3`
   text-align: center;
 
   > b {
-    color: ${(props) => props.theme.color.brown[600]};
+    color: ${(props) => props.theme.color.darkOrange[600]};
   }
 `
 

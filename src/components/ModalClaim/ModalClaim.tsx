@@ -3,22 +3,22 @@ import styled from 'styled-components'
 import { useWallet } from 'use-wallet'
 
 import Button from '../Button'
-import Modal, { ModalProps } from '../Modal'
+import Spacer from '../Spacer'
+import ModalTitle from '../ModalTitle'
 import ModalActions from '../ModalActions'
 import ModalContent from '../ModalContent'
-import ModalTitle from '../ModalTitle'
-import Spacer from '../Spacer'
+import Modal, { ModalProps } from '../Modal'
 
-const ClaimAirdropModal: React.FC<ModalProps> = ({ onDismiss }) => {
+const ModalClaim: React.FC<ModalProps> = ({ onDismiss }) => {
 
     return (
         <Modal>
-            <ModalTitle text="Airdrops" />
+            <ModalTitle text="Claims" />
             <ModalContent>
                 <Spacer />
                 <Button
                     href={`https://etherscan.io/`}
-                    text="Back to Claim"
+                    text="Check again"
                     variant="secondary"
                 />
             </ModalContent>
@@ -29,4 +29,4 @@ const ClaimAirdropModal: React.FC<ModalProps> = ({ onDismiss }) => {
     )
 }
 
-export default ClaimAirdropModal;
+export default ModalClaim;

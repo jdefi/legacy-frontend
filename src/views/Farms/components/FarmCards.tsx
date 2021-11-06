@@ -3,20 +3,20 @@ import React, { useEffect, useState } from 'react'
 import Countdown, { CountdownRenderProps } from 'react-countdown'
 import styled, { keyframes } from 'styled-components'
 import { useWallet } from 'use-wallet'
-import Button from '../../../components/Button'
+
 import Card from '../../../components/Card'
-import CardContent from '../../../components/CardContent'
-import CardIcon from '../../../components/CardIcon'
+import { Farm } from '../../../contexts/Farms'
 import Loader from '../../../components/Loader'
 import Spacer from '../../../components/Spacer'
-import { Farm } from '../../../contexts/Farms'
-import useAllStakedValue, {
-  StakedValue,
-} from '../../../hooks/useAllStakedValue'
+import Button from '../../../components/Button'
+import CardIcon from '../../../components/CardIcon'
+import CardContent from '../../../components/CardContent'
+
+import { bnToDec } from '../../../utils'
 import useFarms from '../../../hooks/useFarms'
 import useSushi from '../../../hooks/useSushi'
 import { getEarned, getMasterChefContract } from '../../../sushi/utils'
-import { bnToDec } from '../../../utils'
+import useAllStakedValue, { StakedValue } from '../../../hooks/useAllStakedValue'
 
 interface FarmWithStakedValue extends Farm, StakedValue {
   apy: BigNumber
@@ -28,60 +28,60 @@ const FarmCards: React.FC = () => {
   const stakedValue = useAllStakedValue()
 
   const sushiIndex = farms.findIndex(
-    ({ tokenSymbol }) => tokenSymbol === 'SUSHI',
+      ({ tokenSymbol }) => tokenSymbol === 'SUSHI',
   )
 
   const sushiPrice =
-    sushiIndex >= 0 && stakedValue[sushiIndex]
-      ? stakedValue[sushiIndex].tokenPriceInWeth
-      : new BigNumber(0)
+      sushiIndex >= 0 && stakedValue[sushiIndex]
+          ? stakedValue[sushiIndex].tokenPriceInWeth
+          : new BigNumber(0)
 
   const BLOCKS_PER_YEAR = new BigNumber(2336000)
   const SUSHI_PER_BLOCK = new BigNumber(1000)
 
   const rows = farms.reduce<FarmWithStakedValue[][]>(
-    (farmRows, farm, i) => {
-      const farmWithStakedValue = {
-        ...farm,
-        ...stakedValue[i],
-        apy: stakedValue[i]
-          ? sushiPrice
-              .times(SUSHI_PER_BLOCK)
-              .times(BLOCKS_PER_YEAR)
-              .times(stakedValue[i].poolWeight)
-              .div(stakedValue[i].totalWethValue)
-          : null,
-      }
-      const newFarmRows = [...farmRows]
-      if (newFarmRows[newFarmRows.length - 1].length === 3) {
-        newFarmRows.push([farmWithStakedValue])
-      } else {
-        newFarmRows[newFarmRows.length - 1].push(farmWithStakedValue)
-      }
-      return newFarmRows
-    },
-    [[]],
+      (farmRows, farm, i) => {
+        const farmWithStakedValue = {
+          ...farm,
+          ...stakedValue[i],
+          apy: stakedValue[i]
+              ? sushiPrice
+                  .times(SUSHI_PER_BLOCK)
+                  .times(BLOCKS_PER_YEAR)
+                  .times(stakedValue[i].poolWeight)
+                  .div(stakedValue[i].totalWethValue)
+              : null,
+        }
+        const newFarmRows = [...farmRows]
+        if (newFarmRows[newFarmRows.length - 1].length === 3) {
+          newFarmRows.push([farmWithStakedValue])
+        } else {
+          newFarmRows[newFarmRows.length - 1].push(farmWithStakedValue)
+        }
+        return newFarmRows
+      },
+      [[]],
   )
 
   return (
-    <StyledCards>
-      {!!rows[0].length ? (
-        rows.map((farmRow, i) => (
-          <StyledRow key={i}>
-            {farmRow.map((farm, j) => (
-              <React.Fragment key={j}>
-                <FarmCard farm={farm} />
-                {(j === 0 || j === 1) && <StyledSpacer />}
-              </React.Fragment>
-            ))}
-          </StyledRow>
-        ))
-      ) : (
-        <StyledLoadingWrapper>
-          <Loader text="Cooking the rice ..." />
-        </StyledLoadingWrapper>
-      )}
-    </StyledCards>
+      <StyledCards>
+        {!!rows[0].length ? (
+            rows.map((farmRow, i) => (
+                <StyledRow key={i}>
+                  {farmRow.map((farm, j) => (
+                      <React.Fragment key={j}>
+                        <FarmCard farm={farm} />
+                        {(j === 0 || j === 1) && <StyledSpacer />}
+                      </React.Fragment>
+                  ))}
+                </StyledRow>
+            ))
+        ) : (
+            <StyledLoadingWrapper>
+              <Loader text="Cooking the rice ..." />
+            </StyledLoadingWrapper>
+        )}
+      </StyledCards>
   )
 }
 
@@ -103,7 +103,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
     const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes
     const paddedHours = hours < 10 ? `0${hours}` : hours
     return (
-      <span style={{ width: '100%' }}>
+        <span style={{ width: '100%' }}>
         {paddedHours}:{paddedMinutes}:{paddedSeconds}
       </span>
     )
@@ -113,72 +113,78 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
     async function fetchEarned() {
       if (sushi) return
       const earned = await getEarned(
-        getMasterChefContract(sushi),
-        lpTokenAddress,
-        account,
+          getMasterChefContract(sushi),
+          lpTokenAddress,
+          account,
       )
       setHarvestable(bnToDec(earned))
     }
     if (sushi && account) {
-      fetchEarned()
+      fetchEarned().then(r => {})
     }
   }, [sushi, lpTokenAddress, account, setHarvestable])
 
   const poolActive = true // startTime * 1000 - Date.now() <= 0
 
   return (
-    <StyledCardWrapper>
-      {farm.tokenSymbol === 'SUSHI' && <StyledCardAccent />}
-      <Card>
-        <CardContent>
-          <StyledContent>
-            <CardIcon>{farm.icon}</CardIcon>
-            <StyledTitle>{farm.name}</StyledTitle>
-            <StyledDetails>
-              <StyledDetail>Deposit {farm.lpToken.toUpperCase()}</StyledDetail>
-              <StyledDetail>Earn {farm.earnToken.toUpperCase()}</StyledDetail>
-            </StyledDetails>
-            <Spacer />
-            <Button
-              disabled={!poolActive}
-              text={poolActive ? 'Select' : undefined}
-              to={`/farms/${farm.id}`}
-            >
-              {!poolActive && (
-                <Countdown
-                  date={new Date(startTime * 1000)}
-                  renderer={renderer}
-                />
-              )}
-            </Button>
-            <StyledInsight>
-              <span>APY</span>
-              <span>
-                {farm.apy
-                  ? `${farm.apy
-                      .times(new BigNumber(100))
-                      .toNumber()
-                      .toLocaleString('en-US')
-                      .slice(0, -1)}%`
-                  : 'Loading ...'}
-              </span>
-              {/* <span>
-                {farm.tokenAmount
-                  ? (farm.tokenAmount.toNumber() || 0).toLocaleString('en-US')
-                  : '-'}{' '}
-                {farm.tokenSymbol}
-              </span>
-              <span>
-                {farm.wethAmount
-                  ? (farm.wethAmount.toNumber() || 0).toLocaleString('en-US')
-                  : '-'}{' '}
-                ETH
-              </span> */}
-            </StyledInsight>
-          </StyledContent>
-        </CardContent>
-      </Card>
-    </StyledCardWrapper>
+      <StyledCardWrapper>
+        <StyleCardHeader>{farm.tokenSymbol}</StyleCardHeader>
+        {farm.tokenSymbol === 'SUSHI' && <StyledCardAccent />}
+        <Card>
+          <CardContent>
+            <StyledContent>
+              <CardIcon>{farm.icon}</CardIcon>
+              <StyledTitle>{farm.name}</StyledTitle>
+              <StyledDetails>
+                <StyledDetail>Deposit {farm.lpToken.toUpperCase()}</StyledDetail>
+                <StyledDetail>Earn {farm.earnToken.toUpperCase()}</StyledDetail>
+              </StyledDetails>
+
+              <Spacer />
+
+              <StyledInsight>
+                <span>APY</span>
+                <span>
+                  {farm.apy
+                      ? `${farm.apy
+                          .times(new BigNumber(100))
+                          .toNumber()
+                          .toLocaleString('en-US')
+                          .slice(0, -1)}%`
+                      : 'Loading ...'}
+                </span>
+                {/*<span>*/}
+                {/*  {farm.tokenAmount*/}
+                {/*      ? (farm.tokenAmount.toNumber() || 0).toLocaleString('en-US')*/}
+                {/*      : '-'}{' '}*/}
+                {/*    {farm.tokenSymbol}*/}
+                {/*</span>*/}
+                {/*<span>*/}
+                {/*  {farm.wethAmount*/}
+                {/*      ? (farm.wethAmount.toNumber() || 0).toLocaleString('en-US')*/}
+                {/*      : '-'}{' '}*/}
+                {/*    ETH*/}
+                {/*</span>*/}
+              </StyledInsight>
+
+              <Spacer />
+
+              <Button
+                  disabled={!poolActive}
+                  text={poolActive ? 'Select' : undefined}
+                  to={`/farms/${farm.id}`}
+              >
+                {!poolActive && (
+                    <Countdown
+                        date={new Date(startTime * 1000)}
+                        renderer={renderer}
+                    />
+                )}
+              </Button>
+            </StyledContent>
+          </CardContent>
+        </Card>
+      </StyledCardWrapper>
   )
 }
 
@@ -247,6 +253,19 @@ const StyledRow = styled.div`
   }
 `
 
+const StyleCardHeader = styled.div`
+  color: ${(props) => props.theme.color.darkOrange[100]};
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 10px 10px 10px 15px;
+  margin-right: 1px;
+  background-color: ${(props) => props.theme.color.darkOrange[400]};
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+`
+
 const StyledCardWrapper = styled.div`
   display: flex;
   width: calc((900px - ${(props) => props.theme.spacing[4]}px * 2) / 3);
@@ -254,7 +273,7 @@ const StyledCardWrapper = styled.div`
 `
 
 const StyledTitle = styled.h4`
-  color: ${(props) => props.theme.color.brown[600]};
+  color: ${(props) => props.theme.color.darkOrange[600]};
   font-size: 24px;
   font-weight: 700;
   margin: ${(props) => props.theme.spacing[2]}px 0 0;
@@ -278,7 +297,7 @@ const StyledDetails = styled.div`
 `
 
 const StyledDetail = styled.div`
-  color: ${(props) => props.theme.color.brown[500]};
+  color: ${(props) => props.theme.color.darkOrange[500]};
 `
 
 const StyledInsight = styled.div`

@@ -31,7 +31,7 @@ const WalletProviderModal: React.FC<ModalProps> = ({ onDismiss }) => {
         <StyledWalletsWrapper>
           <StyledWalletCard>
             <WalletCard
-              icon={<img alt="Metamask logo" src={metamaskLogo} style={{ height: 32 }} />}
+              icon={<img alt="MetaMask logo" src={metamaskLogo} style={{ height: 32 }} />}
               onConnect={() => connect('injected')}
               title="Metamask"
             />

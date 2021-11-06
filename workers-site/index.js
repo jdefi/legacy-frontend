@@ -129,11 +129,19 @@ const mapRequestToAsset = request => {
 const defaultCacheControl = {
   browserTTL: null,
   edgeTTL: 2 * 60 * 60 * 24, // 2 days
+<<<<<<< HEAD
   bypassCache: false, // do not bypass Cloudflare cache
 }
 
 /**
  * takes the path of the incoming request, gathers the appropriate content from KV, and returns
+=======
+  bypassCache: false, // do not bypass Cloudflare's cache
+}
+
+/**
+ * takes the path of the incoming request, gathers the approriate cotent from KV, and returns
+>>>>>>> master
  * the response
  *
  * @param {event} event the fetch event of the triggered request

@@ -3,15 +3,18 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useWallet } from 'use-wallet'
 import { provider } from 'web3-core'
-import PageHeader from '../../components/PageHeader'
-import Spacer from '../../components/Spacer'
-import useFarm from '../../hooks/useFarm'
-import useRedeem from '../../hooks/useRedeem'
-import useSushi from '../../hooks/useSushi'
-import { getMasterChefContract } from '../../sushi/utils'
-import { getContract } from '../../utils/erc20'
-import Harvest from './components/Harvest'
+
 import Stake from './components/Stake'
+import Harvest from './components/Harvest'
+import Spacer from '../../components/Spacer'
+import PageHeader from '../../components/PageHeader'
+
+import useFarm from '../../hooks/useFarm'
+import useSushi from '../../hooks/useSushi'
+import useRedeem from '../../hooks/useRedeem'
+
+import { getContract } from '../../utils/erc20'
+import { getMasterChefContract } from '../../sushi/utils'
 
 const Farm: React.FC = () => {
   const { farmId } = useParams()
@@ -55,34 +58,37 @@ const Farm: React.FC = () => {
   }, [earnToken])
 
   return (
-    <>
-      <PageHeader
-        icon={icon}
-        subtitle={`Deposit ${lpTokenName}  Tokens and earn ${earnTokenName}`}
-        title={name}
-      />
-      <StyledFarm>
-        <StyledCardsWrapper>
-          <StyledCardWrapper>
-            <Harvest pid={pid} />
-          </StyledCardWrapper>
-          <Spacer />
-          <StyledCardWrapper>
-            <Stake
-              lpContract={lpContract}
-              pid={pid}
-              tokenName={lpToken.toUpperCase()}
-            />
-          </StyledCardWrapper>
-        </StyledCardsWrapper>
-        <Spacer size="lg" />
-        <StyledInfo>
-          <span role="img" aria-label="star">⭐️</span>
-          Every time you stake and unstake LP tokens, the contract will automagically harvest SUSHI rewards for you!
-        </StyledInfo>
-        <Spacer size="lg" />
-      </StyledFarm>
-    </>
+      <>
+        <PageHeader
+            icon={icon}
+            subtitle={`Deposit ${lpTokenName}  Tokens and earn ${earnTokenName}`}
+            title={name}
+        />
+        <StyledFarm>
+          <StyledCardsWrapper>
+
+            <StyledCardWrapper>
+              <Harvest pid={pid} />
+            </StyledCardWrapper>
+
+            <Spacer />
+
+            <StyledCardWrapper>
+              <Stake
+                  lpContract={lpContract}
+                  pid={pid}
+                  tokenName={lpToken.toUpperCase()}
+              />
+            </StyledCardWrapper>
+          </StyledCardsWrapper>
+          <Spacer size="lg" />
+          <StyledInfo>
+            <span role="img" aria-label="star">⭐️</span> Every time you stake and unstake LP tokens, the contract will
+            automagically harvest SUSHI rewards for you!
+          </StyledInfo>
+          <Spacer size="lg" />
+        </StyledFarm>
+      </>
   )
 }
 
@@ -115,7 +121,7 @@ const StyledCardWrapper = styled.div`
 `
 
 const StyledInfo = styled.h3`
-  color: ${(props) => props.theme.color.brown[400]};
+  color: ${(props) => props.theme.color.darkOrange[400]};
   font-size: 16px;
   font-weight: 400;
   margin: 0;

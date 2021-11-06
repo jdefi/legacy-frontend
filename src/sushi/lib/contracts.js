@@ -1,15 +1,13 @@
 import BigNumber from 'bignumber.js/bignumber'
+
+import WETHAbi from './abi/weth.json'
 import ERC20Abi from './abi/erc20.json'
-import MasterChefAbi from './abi/masterchef.json'
 import SushiAbi from './abi/sushi.json'
 import UNIV2PairAbi from './abi/uni_v2_lp.json'
-import WETHAbi from './abi/weth.json'
-import {
-  contractAddresses,
-  SUBTRACT_GAS_LIMIT,
-  supportedPools,
-} from './constants.js'
+import MasterChefAbi from './abi/masterchef.json'
+
 import * as Types from './types.js'
+import { contractAddresses, SUBTRACT_GAS_LIMIT, supportedPools } from './constants.js'
 
 export class Contracts {
   constructor(provider, networkId, web3, options) {
@@ -17,7 +15,7 @@ export class Contracts {
     this.defaultConfirmations = options.defaultConfirmations
     this.autoGasMultiplier = options.autoGasMultiplier || 1.5
     this.confirmationType =
-      options.confirmationType || Types.ConfirmationType.Confirmed
+        options.confirmationType || Types.ConfirmationType.Confirmed
     this.defaultGas = options.defaultGas
     this.defaultGasPrice = options.defaultGasPrice
 
@@ -26,12 +24,12 @@ export class Contracts {
     this.weth = new this.web3.eth.Contract(WETHAbi)
 
     this.pools = supportedPools.map((pool) =>
-      Object.assign(pool, {
-        lpAddress: pool.lpAddresses[networkId],
-        tokenAddress: pool.tokenAddresses[networkId],
-        lpContract: new this.web3.eth.Contract(UNIV2PairAbi),
-        tokenContract: new this.web3.eth.Contract(ERC20Abi),
-      }),
+        Object.assign(pool, {
+          lpAddress: pool.lpAddresses[networkId],
+          tokenAddress: pool.tokenAddresses[networkId],
+          lpContract: new this.web3.eth.Contract(UNIV2PairAbi),
+          tokenContract: new this.web3.eth.Contract(ERC20Abi),
+        }),
     )
 
     this.setProvider(provider, networkId)
@@ -50,10 +48,10 @@ export class Contracts {
     setProvider(this.weth, contractAddresses.weth[networkId])
 
     this.pools.forEach(
-      ({ lpContract, lpAddress, tokenContract, tokenAddress }) => {
-        setProvider(lpContract, lpAddress)
-        setProvider(tokenContract, tokenAddress)
-      },
+        ({ lpContract, lpAddress, tokenContract, tokenAddress }) => {
+          setProvider(lpContract, lpAddress)
+          setProvider(tokenContract, tokenAddress)
+        },
     )
   }
 
@@ -81,8 +79,8 @@ export class Contracts {
     if (confirmationType === Types.ConfirmationType.Simulate || !options.gas) {
       let gasEstimate
       if (
-        this.defaultGas &&
-        confirmationType !== Types.ConfirmationType.Simulate
+          this.defaultGas &&
+          confirmationType !== Types.ConfirmationType.Simulate
       ) {
         txOptions.gas = this.defaultGas
       } else {
@@ -100,7 +98,7 @@ export class Contracts {
         const multiplier = autoGasMultiplier || this.autoGasMultiplier
         const totalGas = Math.floor(gasEstimate * multiplier)
         txOptions.gas =
-          totalGas < this.blockGasLimit ? totalGas : this.blockGasLimit
+            totalGas < this.blockGasLimit ? totalGas : this.blockGasLimit
       }
 
       if (confirmationType === Types.ConfirmationType.Simulate) {
@@ -127,7 +125,7 @@ export class Contracts {
     let confirmationOutcome = OUTCOMES.INITIAL
 
     const t =
-      confirmationType !== undefined ? confirmationType : this.confirmationType
+        confirmationType !== undefined ? confirmationType : this.confirmationType
 
     if (!Object.values(Types.ConfirmationType).includes(t)) {
       throw new Error(`Invalid confirmation type: ${t}`)
@@ -137,16 +135,15 @@ export class Contracts {
     let confirmationPromise
 
     if (
-      t === Types.ConfirmationType.Hash ||
-      t === Types.ConfirmationType.Both
+        t === Types.ConfirmationType.Hash ||
+        t === Types.ConfirmationType.Both
     ) {
       hashPromise = new Promise((resolve, reject) => {
         promi.on('error', (error) => {
           if (hashOutcome === OUTCOMES.INITIAL) {
             hashOutcome = OUTCOMES.REJECTED
             reject(error)
-            const anyPromi = promi
-            anyPromi.off()
+            promi.off()
           }
         })
 
@@ -155,8 +152,7 @@ export class Contracts {
             hashOutcome = OUTCOMES.RESOLVED
             resolve(txHash)
             if (t !== Types.ConfirmationType.Both) {
-              const anyPromi = promi
-              anyPromi.off()
+              promi.off()
             }
           }
         })
@@ -164,20 +160,19 @@ export class Contracts {
     }
 
     if (
-      t === Types.ConfirmationType.Confirmed ||
-      t === Types.ConfirmationType.Both
+        t === Types.ConfirmationType.Confirmed ||
+        t === Types.ConfirmationType.Both
     ) {
       confirmationPromise = new Promise((resolve, reject) => {
         promi.on('error', (error) => {
           if (
-            (t === Types.ConfirmationType.Confirmed ||
-              hashOutcome === OUTCOMES.RESOLVED) &&
-            confirmationOutcome === OUTCOMES.INITIAL
+              (t === Types.ConfirmationType.Confirmed ||
+                  hashOutcome === OUTCOMES.RESOLVED) &&
+              confirmationOutcome === OUTCOMES.INITIAL
           ) {
             confirmationOutcome = OUTCOMES.REJECTED
             reject(error)
-            const anyPromi = promi
-            anyPromi.off()
+            promi.off()
           }
         })
 
@@ -188,8 +183,7 @@ export class Contracts {
               if (confirmationOutcome === OUTCOMES.INITIAL) {
                 confirmationOutcome = OUTCOMES.RESOLVED
                 resolve(receipt)
-                const anyPromi = promi
-                anyPromi.off()
+                promi.off()
               }
             }
           })
@@ -197,8 +191,7 @@ export class Contracts {
           promi.on('receipt', (receipt) => {
             confirmationOutcome = OUTCOMES.RESOLVED
             resolve(receipt)
-            const anyPromi = promi
-            anyPromi.off()
+            promi.off()
           })
         }
       })
