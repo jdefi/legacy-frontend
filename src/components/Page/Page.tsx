@@ -4,10 +4,10 @@ import styled from 'styled-components'
 import Footer from '../Footer'
 
 const Page: React.FC = ({ children }) => (
-  <StyledPage>
-    <StyledMain>{children}</StyledMain>
-    <Footer />
-  </StyledPage>
+    <StyledPage>
+        <StyledMain>{children}</StyledMain>
+        <Footer />
+    </StyledPage>
 )
 
 const StyledPage = styled.div``

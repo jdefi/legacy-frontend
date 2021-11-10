@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import Nav from './components/Nav'
 
 const Footer: React.FC = () => (
-  <StyledFooter>
-    <StyledFooterInner>
-      <Nav />
-    </StyledFooterInner>
-  </StyledFooter>
+    <StyledFooter>
+        <StyledFooterInner>
+            <Nav />
+        </StyledFooterInner>
+    </StyledFooter>
 )
 
 const StyledFooter = styled.footer`
@@ -23,6 +23,9 @@ const StyledFooterInner = styled.div`
   height: ${props => props.theme.topBarSize}px;
   max-width: ${props => props.theme.siteWidth}px;
   width: 100%;
+  @media (max-width: 400px) {
+    width: auto;
+  }
 `
 
 export default Footer
