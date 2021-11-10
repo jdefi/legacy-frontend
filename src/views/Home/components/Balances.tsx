@@ -130,8 +130,8 @@ const Balances: React.FC = () => {
 const Footnote = styled.div`
   font-size: 14px;
   padding: 8px 20px;
-  color: ${(props) => props.theme.color.grey[400]};
-  border-top: solid 1px ${(props) => props.theme.color.grey[300]};
+  color: ${(props) => props.theme.color.darkOrange[400]};
+  border-top: solid 1px ${(props) => props.theme.color.darkOrange[300]};
 `
 const FootnoteValue = styled.div`
   font-family: 'Roboto Mono', monospace;

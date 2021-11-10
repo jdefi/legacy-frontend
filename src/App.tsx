@@ -2,18 +2,23 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { UseWalletProvider } from 'use-wallet'
-import DisclaimerModal from './components/DisclaimerModal'
-import MobileMenu from './components/MobileMenu'
+
 import TopBar from './components/TopBar'
+import MobileMenu from './components/MobileMenu'
+import DisclaimerModal from './components/DisclaimerModal'
+
 import FarmsProvider from './contexts/Farms'
 import ModalsProvider from './contexts/Modals'
-import TransactionProvider from './contexts/Transactions'
 import SushiProvider from './contexts/SushiProvider'
-import useModal from './hooks/useModal'
+import TransactionProvider from './contexts/Transactions'
+
 import theme from './theme'
-import Farms from './views/Farms'
+
 import Home from './views/Home'
+import Farms from './views/Farms'
 import Stake from './views/Stake'
+
+import useModal from './hooks/useModal'
 
 const App: React.FC = () => {
   const [mobileMenu, setMobileMenu] = useState(false)

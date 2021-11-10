@@ -1,32 +1,32 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Container from '../Container'
 import Logo from '../Logo'
+import Container from '../Container'
 
-import AccountButton from './components/AccountButton'
 import Nav from './components/Nav'
+import AccountButton from './components/AccountButton'
 
 interface TopBarProps {
-  onPresentMobileMenu: () => void
+    onPresentMobileMenu: () => void
 }
 
 const TopBar: React.FC<TopBarProps> = ({ onPresentMobileMenu }) => {
-  return (
-    <StyledTopBar>
-      <Container size="lg">
-        <StyledTopBarInner>
-          <StyledLogoWrapper>
-            <Logo />
-          </StyledLogoWrapper>
-          <Nav />
-          <StyledAccountButtonWrapper>
-            <AccountButton />
-          </StyledAccountButtonWrapper>
-        </StyledTopBarInner>
-      </Container>
-    </StyledTopBar>
-  )
+    return (
+        <StyledTopBar>
+            <Container size="lg">
+                <StyledTopBarInner>
+                    <StyledLogoWrapper>
+                        <Logo />
+                    </StyledLogoWrapper>
+                    <Nav />
+                    <StyledAccountButtonWrapper>
+                        <AccountButton />
+                    </StyledAccountButtonWrapper>
+                </StyledTopBarInner>
+            </Container>
+        </StyledTopBar>
+    )
 }
 
 const StyledLogoWrapper = styled.div`
