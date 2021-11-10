@@ -17,7 +17,7 @@ const ModalClaim: React.FC<ModalProps> = ({ onDismiss }) => {
             <ModalContent>
                 <Spacer />
                 <Button
-                    href={`https://etherscan.io/`}
+                    href={`https://polygonscan.com/`}
                     text="Check again"
                     variant="secondary"
                 />
